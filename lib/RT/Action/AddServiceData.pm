@@ -18,31 +18,33 @@ sub prepareConfig {
 	
 	while (my ($k,$v) = each(%{ $ref })) {
 		
-		if ($v =~ m/__(\w+)(\(([^\)]+)\))?__/) {
+		
+		while ($v =~ m/__(\w+)(\(([^\)]+)\))?__/) {
 			my $r = $&;
 			my $kw = $1;
 			my $arg = $3 || undef;
-			my $val = undef;
+			my $val = '';
 			
 			if ($kw eq 'CustomField' && defined $arg) {
 				$val = $ticket->CustomFieldValuesAsString($arg, Separator => ', ');
 				# $RT::Logger->error("---> $val\n");
 			}
+			elsif ($kw eq 'QueueName') {
+				$val = $self->TicketObj->QueueObj->Name;
+			}
 			else {
 				$val = $ticket->$kw;
 			}
 			
-			if (defined $val) {				
-				$v =~ s/\Q$r\E/$val/ge;
-				# $RT::Logger->error(" --->> $v");
-			}
+			$v =~ s/\Q$r\E/$val/ge;
 			
+			# $RT::Logger->error(" --->> $v");
 		}
 		
 		$out->{$k} = $v;
 	}
 	
-	# $RT::Logger->error(Dumper $out);
+	$RT::Logger->error(Dumper $out);
 	
 	return $out;
 	

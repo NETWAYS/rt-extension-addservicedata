@@ -18,7 +18,7 @@ Template Example:
 	RequestModule => 'RTx::AddServiceData::HTTPRequest',
 
 	RequestConfig => {
-  		uri => 'http://localhost:10088/iddp/data/db/idoit.owner/rest?q=isys_obj__sysid="__CustomField(SysID)__"'
+  		uri => 'http://localhost:10088/iddp/data/db/idoit.owner/rest?q=isys_obj__sysid="__CustomField(SysID)__"&connection=__QueueName__'
 	},
 
 	ParserModule => 'RTx::AddServiceData::RESTParser'
