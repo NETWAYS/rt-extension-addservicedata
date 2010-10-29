@@ -11,7 +11,7 @@ our $VERSION = '0.9.0';
 require RTx::AddServiceData::GenericRequest;
 
 
-use parent qw (RTx::AddServiceData::GenericRequest);
+use base qw (RTx::AddServiceData::GenericRequest);
 
 sub new {
 	

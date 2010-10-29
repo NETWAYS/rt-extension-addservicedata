@@ -4,7 +4,7 @@ use strict;
 
 require RTx::AddServiceData::GenericParser;
 
-use parent qw(RTx::AddServiceData::GenericParser);
+use base qw(RTx::AddServiceData::GenericParser);
 
 sub parseData {
 	my $self = shift;

@@ -3,7 +3,7 @@ package RT::Action::AddServiceData;
 use strict;
 use warnings;
 
-use parent qw(RT::Action);
+use base qw(RT::Action);
 
 use Data::Dumper;
 
