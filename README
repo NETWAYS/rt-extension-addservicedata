@@ -1,0 +1,27 @@
+RTx-AddServiceData:
+
+Adding ticket meta data from webservices
+
+Please combine this Action with an template with following code:
+
+Template Example:
+
+- Queries the URL with the parameter configured
+- Iterate through the results
+- Add for each row a new requestor with email in hash
+
+{
+	Type => 'AddRequestors',
+	
+	Field => 'email',
+
+	RequestModule => 'RTx::AddServiceData::HTTPRequest',
+
+	RequestConfig => {
+  		uri => 'http://localhost:10088/iddp/data/db/idoit.owner/rest?q=isys_obj__sysid="__CustomField(SysID)__"'
+	},
+
+	ParserModule => 'RTx::AddServiceData::RESTParser'
+
+}
+

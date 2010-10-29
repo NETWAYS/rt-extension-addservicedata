@@ -1,0 +1,5 @@
+@ScripActions = ({
+	Name		=> 'Add Service Data',						# loc
+	Description	=> 'Add webservice data to ticket meta',	# loc
+	ExecModule 	=> 'AddServiceData'
+});
