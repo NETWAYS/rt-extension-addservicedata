@@ -44,7 +44,7 @@ sub prepareConfig {
 		$out->{$k} = $v;
 	}
 	
-	$RT::Logger->error(Dumper $out);
+	# $RT::Logger->error(Dumper $out);
 	
 	return $out;
 	
