@@ -102,10 +102,17 @@ sub Commit {
     foreach my $hash(@{ $self->{'data'} }) {
     	if (exists $hash->{$field}) {
     		
-    		if ($type eq 'AddRequestors') {
+    		if ($type =~ m/AddRequestors/) {
     			$self->TicketObj->AddWatcher(
     				Email => $hash->{$field},
     				Type => 'Requestor'
+    			);
+    		}
+    		
+    		if ($type =~ m/AddAdminCc/) {
+    			$self->TicketObj->AddWatcher(
+    				Email => $hash->{$field},
+    				Type => 'AdminCc'
     			);
     		}
     		
