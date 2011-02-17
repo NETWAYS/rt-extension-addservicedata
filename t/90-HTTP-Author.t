@@ -4,7 +4,9 @@ use_ok('RTx::AddServiceData::HTTPRequest');
 use_ok('RTx::AddServiceData::RESTParser');
 
 my $h = RTx::AddServiceData::HTTPRequest->new(
-	'uri'	=> 'http://localhost:10088/iddp/data/db/idoit.owner/rest'
+	'uri'	=> 'http://localhost:10088/iddp/data/db/sugarcrm.contacts/rest',
+	'user'	=> 'testuser',
+	'pass'	=> 'testuser'
 );
 
 my $data = $h->getRequestData();
@@ -17,14 +19,12 @@ my $parser = RTx::AddServiceData::RESTParser->new(
 
 $parser->parseData();
 
-my @data = $parser->getData();
+my $arr_ref = $parser->getData();
 
-ok(scalar @data >0, 'Got array data');
+ok(scalar @{$arr_ref}>0, 'Got array data');
 
-my $hashref = shift @data;
+my $hashref = shift @{$arr_ref};
 
 ok (ref $hashref eq 'HASH', 'Item is HASH');
 
 ok (scalar keys(%{ $hashref }) > 0, 'Hash has values');
-
-RT::Init;

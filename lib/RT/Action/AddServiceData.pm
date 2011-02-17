@@ -3,7 +3,16 @@ package RT::Action::AddServiceData;
 use strict;
 use warnings;
 
-use base qw(RT::Action);
+BEGIN {
+
+	if ($RT::VERSION =~ /3\.6\.\d+/) {
+		use base qw(RT::Action::Generic);
+	}
+	else {
+		use base qw(RT::Action);
+	}
+
+}
 
 use Data::Dumper;
 
@@ -54,8 +63,13 @@ sub Prepare {
     my $self = shift;
     my $c = $self->TemplateConfig();
     
+    $RT::Logger->debug('AddServiceData: Starting up ...');
+    
     my $rmodule = $c->{'RequestModule'};
     my $pmodule = $c->{'ParserModule'};
+    
+    $RT::Logger->debug('AddServiceData: Request: '. $rmodule);
+    $RT::Logger->debug('AddServiceData: Parser: '. $pmodule);
     
     eval("use $rmodule;");
     die $@ if ($@);
@@ -67,11 +81,22 @@ sub Prepare {
     
     $c->{'RequestConfig'} = $requestConfig;
     
+    if (exists($c->{'RequestConfig'}->{'uri'})) {
+    	$RT::Logger->info('AddServiceData: URI: '. $c->{'RequestConfig'}->{'uri'});
+    }
+    else {
+    	$RT::Logger->error('AddServiceData: No service URI given');
+    	return;
+    }
+    
     my $r = $rmodule->new(%{ $requestConfig });
     
     my $data = $r->getRequestData();
     
-    return undef unless $data;
+    unless ($data) {
+    	$RT::Logger->error('AddServiceData: No request data returned!');
+    	return;
+    }
     
     my $p = $pmodule->new(content => $data);
     
@@ -116,6 +141,36 @@ sub Commit {
     			);
     		}
     		
+    		if ($type =~ m/AddCustomFieldValue/) {
+    			
+    			unless (exists($self->{'config'}->{'CustomField'})) {
+    				$RT::Logger->error('AddCustomFieldValue needs CustomField configuration');
+    				last;
+    			}
+    			
+    			my $cf_name = $self->{'config'}->{'CustomField'};
+    			
+    			my $CF = RT::CustomField->new($RT::SystemUser);
+    			$CF->Load($cf_name);
+    			
+    			if ($CF->Id) {
+    				$RT::Logger->debug('AddServiceData: Got CF: '. $cf_name);
+    				
+    				my $value = $hash->{$field};
+    				if ($value) {
+    					$self->TicketObj->AddCustomFieldValue(
+    						Field => $CF,
+    						Value => $value
+    					);
+    					last;
+    				}
+    			}
+    			else {
+    				$RT::Logger->error('AddServiceData: Error loading CustomField: '. $cf_name);
+    			}
+    			
+    		}
+    		
     	}
     }
     
@@ -130,20 +185,20 @@ sub TemplateContent {
 sub TemplateConfig {
     my $self = shift;
 
-    my ($content, $error) = $self->TemplateContent;
-    if (!defined($content)) {
-        return (undef, $error);
-    }
-
+    my $content = $self->TemplateContent;
+    
 	my $data = eval($content);
+	
+	if ($@) {
+		$RT::Logger->error('Template error: '. $@);
+		die($@);
+	}
 	
 	if (ref $data eq 'HASH') {
 		return $data;
 	}
 	
 	return undef;
-	
-
 }
 
 

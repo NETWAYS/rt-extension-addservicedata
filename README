@@ -25,3 +25,30 @@ Template Example:
 
 }
 
+Adding a CustomFieldValue
+
+{
+	Type => 'AddCustomFieldValue',
+	
+	Field => 'accounts_id',
+	CustomField => 'client',
+
+	RequestModule => 'RTx::AddServiceData::HTTPRequest',
+
+	RequestConfig => {
+  		uri => 'http://localhost:10088/iddp/data/db/sugarcrm.contacts/rest?q=email_address="__RequestorAddresses__"',
+  		user => 'testuser',
+  		pass => 'testuser'
+	},
+
+	ParserModule => 'RTx::AddServiceData::RESTParser'
+
+}
+
+Allowed replace strings:
+
+__CustomField(<NAME>)__
+__QueueName__
+__RequestorAddresses__
+
+(All other implementations of RT::Ticket -> __<METHOD>__)

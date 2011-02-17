@@ -6,6 +6,8 @@ use Data::Dumper;
 
 use LWP::UserAgent;
 
+use HTTP::Request;
+
 our $VERSION = '0.9.0';
 
 require RTx::AddServiceData::GenericRequest;
@@ -35,11 +37,26 @@ sub new {
 	return bless $self, $class;
 }
 
+sub getRequest {
+	my $self = shift;
+	my $req = HTTP::Request->new(GET => $self->getItem('uri'));
+	
+	if ($self->getItem('user') && $self->getItem('pass')) {
+		$req->authorization_basic($self->getItem('user'), $self->getItem('pass'));
+	}
+	
+	return $req;
+}
+
 sub doRequest {
 	
 	my $self = shift;
 	
-	$self->{'response'} = $self->{'ua'}->get($self->getItem('uri'));
+	use Data::Dumper;
+	
+	my $req = $self->getRequest();
+	
+	$self->{'response'} = $self->{'ua'}->request($req);
 	
 	if ($self->{'response'}->is_success) {
 		$self->{'content'} = $self->{'response'}->content;	

@@ -5,14 +5,16 @@ BEGIN {
 }
 
 my $h = RTx::AddServiceData::HTTPRequest->new(
-	'uri'	=> 'http://localhost:10088'
+	'uri'	=> 'http://localhost:10088/iddp',
+	'user'	=> 'testuser',
+	'pass'	=> 'testuser'
 );
 
 ok(defined $h, 'Object created');
 
 isa_ok($h, 'RTx::AddServiceData::GenericRequest');
 
-ok($h->getItem('uri') eq 'http://localhost:10088', 'Right URI');
+ok($h->getItem('uri') eq 'http://localhost:10088/iddp', 'Right URI');
 
 $data = $h->getRequestData();
 
