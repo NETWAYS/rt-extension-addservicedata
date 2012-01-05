@@ -2,17 +2,9 @@ package RT::Action::AddServiceData;
 
 use strict;
 use warnings;
+use RT::Action;
 
-BEGIN {
-
-	if ($RT::VERSION =~ /3\.6\.\d+/) {
-		use base qw(RT::Action::Generic);
-	}
-	else {
-		use base qw(RT::Action);
-	}
-
-}
+use base qw(RT::Action);
 
 use Data::Dumper;
 
