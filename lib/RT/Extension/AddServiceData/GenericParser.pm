@@ -1,4 +1,4 @@
-package RTx::AddServiceData::GenericParser;
+package RT::Extension::AddServiceData::GenericParser;
 
 use strict;
 
@@ -24,11 +24,11 @@ sub parseData {
 
 sub getData {
 	my $self = shift;
-	
+
 	unless ($self->{'parse_ok'}) {
 		$self->parseData();
 	}
-	
+
 	return $self->{'data'};
 }
 

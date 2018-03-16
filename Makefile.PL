@@ -2,7 +2,7 @@ use strict;
 
 use inc::Module::Install;
 
-RTx('RTx-AddServiceData');
+RTx('RT-Extension-AddServiceData');
 
 author('Marius Hein <marius.hein@netways.de');
 version('0.0');

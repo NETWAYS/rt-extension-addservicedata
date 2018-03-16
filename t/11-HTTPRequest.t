@@ -1,10 +1,10 @@
 use Test::More tests => 6;
 
 BEGIN {
-	use_ok('RTx::AddServiceData::HTTPRequest');
+	use_ok('RT::Extension::AddServiceData::HTTPRequest');
 }
 
-my $h = RTx::AddServiceData::HTTPRequest->new(
+my $h = RT::Extension::AddServiceData::HTTPRequest->new(
 	'uri'	=> 'http://localhost:10088/iddp',
 	'user'	=> 'testuser',
 	'pass'	=> 'testuser'
@@ -12,7 +12,7 @@ my $h = RTx::AddServiceData::HTTPRequest->new(
 
 ok(defined $h, 'Object created');
 
-isa_ok($h, 'RTx::AddServiceData::GenericRequest');
+isa_ok($h, 'RT::Extension::AddServiceData::GenericRequest');
 
 ok($h->getItem('uri') eq 'http://localhost:10088/iddp', 'Right URI');
 

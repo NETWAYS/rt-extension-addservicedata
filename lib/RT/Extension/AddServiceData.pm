@@ -1,4 +1,4 @@
-package RTx::AddServiceData;
+package RT::Extension::AddServiceData;
 
 use strict;
 

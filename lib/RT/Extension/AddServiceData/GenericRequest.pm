@@ -1,4 +1,4 @@
-package RTx::AddServiceData::GenericRequest;
+package RT::Extension::AddServiceData::GenericRequest;
 
 use strict;
 
@@ -8,9 +8,9 @@ use Data::Dumper;
 
 sub new {
 	my $type = shift;
-	
+
 	my $config = { @_ };
-	
+
 	return bless {
 		'config' => $config,
 		'errors' => []
@@ -33,7 +33,7 @@ sub getItem {
 	if (exists $self->{'config'}->{$arg}) {
 		return $self->{'config'}->{$arg};
 	}
-	
+
 	return $return;
 }
 

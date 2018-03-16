@@ -14,11 +14,11 @@ inc/Module/Install/WriteAll.pm
 inc/unicore/Name.pm
 inc/YAML/Tiny.pm
 lib/RT/Action/AddServiceData.pm
-lib/RTx/AddServiceData.pm
-lib/RTx/AddServiceData/GenericParser.pm
-lib/RTx/AddServiceData/GenericRequest.pm
-lib/RTx/AddServiceData/HTTPRequest.pm
-lib/RTx/AddServiceData/RESTParser.pm
+lib/RT/Extension/AddServiceData.pm
+lib/RT/Extension/AddServiceData/GenericParser.pm
+lib/RT/Extension/AddServiceData/GenericRequest.pm
+lib/RT/Extension/AddServiceData/HTTPRequest.pm
+lib/RT/Extension/AddServiceData/RESTParser.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml

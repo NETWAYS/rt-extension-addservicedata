@@ -1,18 +1,18 @@
-package RTx::AddServiceData::RESTParser;
+package RT::Extension::AddServiceData::RESTParser;
 
 use strict;
 
-require RTx::AddServiceData::GenericParser;
+require RT::Extension::AddServiceData::GenericParser;
 
-use base qw(RTx::AddServiceData::GenericParser);
+use base qw(RT::Extension::AddServiceData::GenericParser);
 
 sub parseData {
 	my $self = shift;
 	my @content = split(chr(10), $_[0] || $self->{'content'});
-	
+
 	$self->{'data'} = ();
 	my $tmp = {};
-	
+
 	while (defined(my $line = shift @content)) {
 		if ($line =~ /^([^:]+):\s+([^\$]+)$/) {
 			my $key = $1;
@@ -21,15 +21,15 @@ sub parseData {
 			chomp($val);
 			$tmp->{$key} = $val
 		}
-		
+
 		if ($line =~ /--/ || scalar @content <= 0) {
 			push @{ $self->{'data'} }, $tmp;
 			$tmp = {};
 		}
 	}
-	
+
 	return 1;
-	
+
 }
 
 1;

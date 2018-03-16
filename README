@@ -1,4 +1,4 @@
-RTx-AddServiceData:
+RT-Extension-AddServiceData:
 
 Adding ticket meta data from webservices
 
@@ -12,16 +12,16 @@ Template Example:
 
 {
 	Type => 'AddRequestors',
-	
+
 	Field => 'email',
 
-	RequestModule => 'RTx::AddServiceData::HTTPRequest',
+	RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
 
 	RequestConfig => {
   		uri => 'http://localhost:10088/iddp/data/db/idoit.owner/rest?q=isys_obj__sysid="__CustomField(SysID)__"&connection=__QueueName__'
 	},
 
-	ParserModule => 'RTx::AddServiceData::RESTParser'
+	ParserModule => 'RT::Extension::AddServiceData::RESTParser'
 
 }
 
@@ -29,11 +29,11 @@ Adding a CustomFieldValue
 
 {
 	Type => 'AddCustomFieldValue',
-	
+
 	Field => 'accounts_id',
 	CustomField => 'client',
 
-	RequestModule => 'RTx::AddServiceData::HTTPRequest',
+	RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
 
 	RequestConfig => {
   		uri => 'http://localhost:10088/iddp/data/db/sugarcrm.contacts/rest?q=email_address="__RequestorAddresses__"',
@@ -41,7 +41,7 @@ Adding a CustomFieldValue
   		pass => 'testuser'
 	},
 
-	ParserModule => 'RTx::AddServiceData::RESTParser'
+	ParserModule => 'RT::Extension::AddServiceData::RESTParser'
 
 }
 
