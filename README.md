@@ -71,43 +71,49 @@ Please combine this Action with a template and the following code:
 - Iterate through the results
 - Add for each row a new requestor with email in hash
 
-    {
-        Type => 'AddRequestors',
+```
+{
+    Type => 'AddRequestors',
 
-        Field => 'email',
+    Field => 'email',
 
-        RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
+    RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
 
-        RequestConfig => {
-            uri => 'http://localhost:10088/iddp/data/db/idoit.owner/rest?q=isys_obj__sysid="\__CustomField(SysID)\__"&connection=\__QueueName\__'
-        },
+    RequestConfig => {
+        uri => 'http://localhost:10088/iddp/data/db/idoit.owner/rest?q=isys_obj__sysid="__CustomField(SysID)__"&connection=__QueueName__'
+    },
 
-        ParserModule => 'RT::Extension::AddServiceData::RESTParser'
-    }
+    ParserModule => 'RT::Extension::AddServiceData::RESTParser'
+}
+```
 
 Add a CustomFieldValue:
 
-    {
-        Type => 'AddCustomFieldValue',
+```
+{
+    Type => 'AddCustomFieldValue',
 
-        Field => 'accounts_id',
-        CustomField => 'client',
+    Field => 'accounts_id',
+    CustomField => 'client',
 
-        RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
+    RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
 
-        RequestConfig => {
-            uri => 'http://localhost:10088/iddp/data/db/sugarcrm.contacts/rest?q=email_address="\__RequestorAddresses\__"',
-            user => 'testuser',
-            pass => 'testuser'
-        },
+    RequestConfig => {
+        uri => 'http://localhost:10088/iddp/data/db/sugarcrm.contacts/rest?q=email_address="__RequestorAddresses__"',
+        user => 'testuser',
+        pass => 'testuser'
+    },
 
-        ParserModule => 'RT::Extension::AddServiceData::RESTParser'
-    }
+    ParserModule => 'RT::Extension::AddServiceData::RESTParser'
+}
+```
 
 Allowed replace strings:
 
-    \__CustomField(<NAME>)\__
-    \__QueueName\__
-    \__RequestorAddresses\__
+```
+__CustomField(<NAME>)__
+__QueueName__
+__RequestorAddresses__
+```
 
-(All other implementations of RT::Ticket - \__<METHOD>\__)
+(All other implementations of `RT::Ticket - __<METHOD>__`)
