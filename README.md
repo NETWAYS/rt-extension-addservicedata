@@ -116,4 +116,4 @@ __QueueName__
 __RequestorAddresses__
 ```
 
-(All other implementations of `RT::Ticket - __<METHOD>__`)
+(All other implementations of `RT::Ticket -> __<METHOD>__`)
