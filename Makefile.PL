@@ -1,17 +1,11 @@
-use strict;
-
 use inc::Module::Install;
 
-RTx('RT-Extension-AddServiceData');
+RTx     'RT-Extension-AddServiceData';
+license 'gpl_2';
+repository 'https://github.com/NETWAYS/rt-extension-addservicedata';
+readme_from 'lib/RT/Extension/AddServiceData.pm';
 
-author('Marius Hein <marius.hein@netways.de');
-version('0.0');
-license('gpl');
+requires_rt '4.2';
 
-perl_version('5.10.0');
-
-no_index directory => 'inc';
-
-all_from('lib/RT/Action/AddServiceData.pm');
-
-&WriteAll;
+sign;
+WriteAll;
