@@ -1,54 +1,88 @@
-RT-Extension-AddServiceData:
+NAME
+    RT-Extension-AddServiceData
 
-Adding ticket meta data from webservices
+DESCRIPTION
+    Add ticket meta data from webservices.
 
-Please combine this Action with an template with following code:
+RT VERSION
+    Works with RT 4.2
 
-Template Example:
+INSTALLATION
+    perl Makefile.PL
+    make
+    make install
+        May need root permissions
 
-- Queries the URL with the parameter configured
-- Iterate through the results
-- Add for each row a new requestor with email in hash
+    Edit your /opt/rt4/etc/RT_SiteConfig.pm
+        Add this line:
 
-{
-	Type => 'AddRequestors',
+            Plugin('RT::Extension::AddServiceData');
 
-	Field => 'email',
+    Clear your mason cache
+            rm -rf /opt/rt4/var/mason_data/obj
 
-	RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
+    Restart your webserver
 
-	RequestConfig => {
-  		uri => 'http://localhost:10088/iddp/data/db/idoit.owner/rest?q=isys_obj__sysid="__CustomField(SysID)__"&connection=__QueueName__'
-	},
+CONFIGURATION
+    Please combine this Action with a template and the following code:
 
-	ParserModule => 'RT::Extension::AddServiceData::RESTParser'
+  Template Example
+    - Queries the URL with the parameter configured
+    - Iterate through the results
+    - Add for each row a new requestor with email in hash
 
-}
+            {
+                    Type => 'AddRequestors',
 
-Adding a CustomFieldValue
+                    Field => 'email',
 
-{
-	Type => 'AddCustomFieldValue',
+                    RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
 
-	Field => 'accounts_id',
-	CustomField => 'client',
+                    RequestConfig => {
+                            uri => 'http://localhost:10088/iddp/data/db/idoit.owner/rest?q=isys_obj__sysid="__CustomField(SysID)__"&connection=__QueueName__'
+                    },
 
-	RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
+                    ParserModule => 'RT::Extension::AddServiceData::RESTParser'
+            }
 
-	RequestConfig => {
-  		uri => 'http://localhost:10088/iddp/data/db/sugarcrm.contacts/rest?q=email_address="__RequestorAddresses__"',
-  		user => 'testuser',
-  		pass => 'testuser'
-	},
+    Add a CustomFieldValue
 
-	ParserModule => 'RT::Extension::AddServiceData::RESTParser'
+            {
+                    Type => 'AddCustomFieldValue',
 
-}
+                    Field => 'accounts_id',
+                    CustomField => 'client',
 
-Allowed replace strings:
+                    RequestModule => 'RT::Extension::AddServiceData::HTTPRequest',
 
-__CustomField(<NAME>)__
-__QueueName__
-__RequestorAddresses__
+                    RequestConfig => {
+                            uri => 'http://localhost:10088/iddp/data/db/sugarcrm.contacts/rest?q=email_address="__RequestorAddresses__"',
+                            user => 'testuser',
+                            pass => 'testuser'
+                    },
 
-(All other implementations of RT::Ticket -> __<METHOD>__)
+                    ParserModule => 'RT::Extension::AddServiceData::RESTParser'
+            }
+
+    Allowed replace strings:
+
+            __CustomField(<NAME>)__
+            __QueueName__
+            __RequestorAddresses__
+
+    (All other implementations of RT::Ticket -> __<METHOD>__)
+
+AUTHOR
+    NETWAYS GmbH <lt>support@netways.de<gt>
+
+BUGS
+    All bugs should be reported on GitHub
+    <https://github.com/NETWAYS/rt-extension-addservicedata>.
+
+LICENSE AND COPYRIGHT
+    This software is Copyright (c) 2018 by NETWAYS GmbH
+
+    This is free software, licensed under:
+
+      The GNU General Public License, Version 2, June 1991
+
